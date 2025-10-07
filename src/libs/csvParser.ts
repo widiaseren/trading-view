@@ -1,6 +1,6 @@
 // libs/csvParser.ts
 import Papa from "papaparse";
-import type { StockRow, TickerMeta, csvDataType } from "../types/stock";
+import type { RawMetaRow, StockRow, TickerMeta, csvDataType } from "../types/stock";
 
 export const fetchStockData = async (): Promise<{ metas: TickerMeta[]; rows: StockRow[] }> => {
   // adjust paths if you use different filenames (user said data1 & data2)
@@ -14,7 +14,7 @@ export const fetchStockData = async (): Promise<{ metas: TickerMeta[]; rows: Sto
   const metaParsed = Papa.parse(metaCsv, { header: true, skipEmptyLines: true });
   const priceParsed = Papa.parse(priceCsv, { header: true, skipEmptyLines: true });
 
-  const metas: TickerMeta[] = (metaParsed.data as any[])
+  const metas: TickerMeta[] = (metaParsed.data as RawMetaRow[])
     .filter(Boolean)
     .map((r) => ({
       ticker: String(r.portid || "").trim(),

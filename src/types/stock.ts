@@ -1,5 +1,5 @@
 export type StockRow = {
-  date: string; // YYYY-MM-DD
+  date: string;
   ticker: string;
   open: number;
   high: number;
@@ -7,6 +7,14 @@ export type StockRow = {
   close: number;
   volume: number;
 };
+
+export interface RawMetaRow {
+  portid?: string;
+  portname?: string;
+  sector?: string;
+  subsector?: string;
+  listeddate?: string;
+}
 
 export type TickerMeta = {
   ticker: string;

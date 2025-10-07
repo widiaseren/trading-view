@@ -1,9 +1,10 @@
 import domtoPDF from "dom-to-pdf";
+import type { DomToPdfOptions } from "dom-to-pdf";
 
 export const exportDivToPDF = (div: HTMLDivElement | null, filename: string) => {
   if (!div) return;
 
-  const opt = {
+  const opt: DomToPdfOptions = {
     filename,
     margin: 0.2,
     image: { type: "jpeg", quality: 0.98 },

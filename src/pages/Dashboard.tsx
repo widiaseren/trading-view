@@ -7,6 +7,7 @@ import { filterRows } from '../utils/filter';
 import type { StockRow, TickerMeta } from '../types/stock';
 
 const Dashboard = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setMetas] = useState<TickerMeta[]>([]);
   const [rows, setRows] = useState<StockRow[]>([]);
   const exportRef = useRef<HTMLDivElement | null>(null);
