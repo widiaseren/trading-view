@@ -1,9 +1,7 @@
-// libs/csvParser.ts
 import Papa from "papaparse";
 import type { RawMetaRow, StockRow, TickerMeta, csvDataType } from "../types/stock";
 
 export const fetchStockData = async (): Promise<{ metas: TickerMeta[]; rows: StockRow[] }> => {
-  // adjust paths if you use different filenames (user said data1 & data2)
   const [metaRes, priceRes] = await Promise.all([
     fetch("/msequity.csv"),
     fetch("/trequity.csv"),

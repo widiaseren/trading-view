@@ -37,3 +37,20 @@ export type csvDataType = {
   subsector?: string;
   listeddate?: string;
 };
+
+export interface FilterProps {
+  allTickers: string[];
+  selectedTickers: string[];
+  setSelectedTickers: (tickers: string[]) => void;
+  dateFrom: string;
+  setDateFrom: (date: string) => void;
+  dateTo: string;
+  setDateTo: (date: string) => void;
+}
+
+export interface TableProps {
+  toggleSort: (col: keyof StockRow) => void;
+  sortColumn: keyof StockRow;
+  sortAsc: boolean;
+  filteredRows: StockRow[];
+}

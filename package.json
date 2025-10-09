@@ -14,16 +14,12 @@
     "daisyui": "^5.1.29",
     "dayjs": "^1.11.18",
     "dom-to-pdf": "^0.3.2",
-    "html-to-image": "^1.11.13",
     "html2canvas": "^1.4.1",
     "jspdf": "^3.0.3",
-    "jspdf-autotable": "^5.0.2",
     "lightweight-charts": "^5.0.9",
     "papaparse": "^5.5.3",
-    "puppeteer": "^24.23.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "swr": "^2.3.6",
     "tailwindcss": "^4.1.14"
   },
   "devDependencies": {

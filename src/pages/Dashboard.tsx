@@ -4,6 +4,9 @@ import { fetchStockData } from '../libs/csvParser';
 import { generateSeries } from '../utils/series';
 import { exportDivToPDF } from '../utils/pdf';
 import { filterRows } from '../utils/filter';
+import { Filter } from '../components/Filter';
+import { Header } from '../components/Header';
+import { Table } from '../components/Table';
 import type { StockRow, TickerMeta } from '../types/stock';
 
 const Dashboard = () => {
@@ -67,20 +70,11 @@ const Dashboard = () => {
       <div className="card shadow-md border border-gray-300" ref={exportRef}>
         <div className="card-body space-y-4">
           {/* HEADER */}
-          <div className="text-center border-b pb-2">
-            <h2 className="text-2xl font-bold">📈 Stock Dashboard</h2>
-            <p className="text-sm text-gray-500">
-              Generated on: {new Date().toLocaleString()}
-            </p>
-            <p className="text-sm text-gray-600 mt-1">
-              Active Filters:{' '}
-              {selectedTickers.length > 0
-                ? selectedTickers.join(', ')
-                : 'All tickers'}
-              {dateFrom && ` | From: ${dateFrom}`}
-              {dateTo && ` | To: ${dateTo}`}
-            </p>
-          </div>
+          <Header
+            dateFrom={dateFrom}
+            dateTo={dateTo}
+            selectedTickers={selectedTickers}
+          />
 
           {/* Toolbar */}
           <div className="flex flex-wrap items-center justify-between gap-4 hide-on-export">
@@ -92,9 +86,7 @@ const Dashboard = () => {
                 checked={chartType === 'candlestick'}
                 onChange={() => {
                   setChartType(chartType === 'line' ? 'candlestick' : 'line');
-                  if (chartType === 'line') {
-                    setSelectedTickers([]);
-                  }
+                  setSelectedTickers([allTickers[0]]);
                 }}
               />
             </label>
@@ -112,50 +104,15 @@ const Dashboard = () => {
           </div>
 
           {/* Filters */}
-          <div className="flex flex-wrap justify-between gap-4">
-            <div className="flex flex-wrap gap-2 hide-on-export">
-              {chartType === 'line' &&
-                allTickers.map((ticker) => (
-                  <label key={ticker} className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      className="checkbox checkbox-primary"
-                      checked={selectedTickers.includes(ticker)}
-                      onChange={(e) => {
-                        if (e.target.checked)
-                          setSelectedTickers([...selectedTickers, ticker]);
-                        else
-                          setSelectedTickers(
-                            selectedTickers.filter((t) => t !== ticker)
-                          );
-                      }}
-                    />
-                    {ticker}
-                  </label>
-                ))}
-            </div>
-
-            <div className="flex gap-4 hide-on-export">
-              <div className="flex flex-col">
-                <label className="label-text text-sm">Start Date</label>
-                <input
-                  type="date"
-                  className="input input-bordered input-sm w-36"
-                  value={dateFrom}
-                  onChange={(e) => setDateFrom(e.target.value)}
-                />
-              </div>
-              <div className="flex flex-col">
-                <label className="label-text text-sm">End Date</label>
-                <input
-                  type="date"
-                  className="input input-bordered input-sm w-36"
-                  value={dateTo}
-                  onChange={(e) => setDateTo(e.target.value)}
-                />
-              </div>
-            </div>
-          </div>
+          <Filter
+            allTickers={allTickers}
+            selectedTickers={selectedTickers}
+            setSelectedTickers={setSelectedTickers}
+            dateFrom={dateFrom}
+            setDateFrom={setDateFrom}
+            dateTo={dateTo}
+            setDateTo={setDateTo}
+          />
 
           {/* Chart */}
           <div className="pt-4 mb-8">
@@ -170,53 +127,12 @@ const Dashboard = () => {
           </div>
 
           {/* Table */}
-          <div className="overflow-x-auto pt-4">
-            <table className="table table-compact w-full">
-              <thead className="bg-gray-100 text-black">
-                <tr>
-                  {[
-                    'date',
-                    'ticker',
-                    'open',
-                    'high',
-                    'low',
-                    'close',
-                    'volume',
-                  ].map((col) => (
-                    <th
-                      key={col}
-                      onClick={() => toggleSort(col as keyof StockRow)}
-                      className="cursor-pointer select-none"
-                    >
-                      {col.toUpperCase()}
-                      {sortColumn === col ? (sortAsc ? ' ▲' : ' ▼') : ''}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {filteredRows.length === 0 ? (
-                  <tr>
-                    <td colSpan={7} className="text-center">
-                      No data for selected filters
-                    </td>
-                  </tr>
-                ) : (
-                  filteredRows.map((r, i) => (
-                    <tr key={`${r.ticker}-${r.date}-${i}`}>
-                      <td>{r.date}</td>
-                      <td>{r.ticker}</td>
-                      <td>{r.open.toFixed(2)}</td>
-                      <td>{r.high.toFixed(2)}</td>
-                      <td>{r.low.toFixed(2)}</td>
-                      <td>{r.close.toFixed(2)}</td>
-                      <td>{r.volume.toLocaleString()}</td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+          <Table
+            toggleSort={toggleSort}
+            sortColumn={sortColumn}
+            sortAsc={sortAsc}
+            filteredRows={filteredRows}
+          />
         </div>
       </div>
     </div>

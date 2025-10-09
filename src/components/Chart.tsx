@@ -44,7 +44,7 @@ export const Chart = ({
     // Create chart
     const chart = createChart(container, {
       width: container.clientWidth,
-      height: height - 30, // leave space for legend
+      height: height - 30,
       layout: {
         textColor: '#333',
         background: {
@@ -91,7 +91,7 @@ export const Chart = ({
         line.setData(series[t]);
       });
 
-      // ✅ Create persistent legend below the chart
+      // Create persistent legend below the chart
       const legendContainer = document.createElement('div');
       legendContainer.style.width = '100%';
       legendContainer.style.display = 'flex';
@@ -115,7 +115,7 @@ export const Chart = ({
         legendContainer.appendChild(item);
       });
 
-      // ✅ append legend *after* chart
+      // append legend *after* chart
       container.appendChild(legendContainer);
       legendRef.current = legendContainer;
     }
